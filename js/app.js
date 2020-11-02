@@ -26,8 +26,8 @@ const OffTheLineClone = {
         this.setDimensions()
         this.guideLineInsert()
         this.createHero()
-        this.drawAll()
         this.setListener()
+        this.drawAll()
         this.setTimer()
 
     },
@@ -48,15 +48,16 @@ const OffTheLineClone = {
         setInterval(() => {
             this.clearScreen()
             this.drawBackground()
+            //this.matrixDraw()
             this.drawLinearSquare()
-            this.drawCoinsGuide()
+            //this.drawCoinsGuide()
             this.hero.drawHero()
+            this.hero.moveHero()
             this.drawCoins()
             this.drawText()
             this.drawTimer()
             this.stopTimer()
-
-        }, 1000 / 60)
+        }, 5)
 
     },
 
@@ -66,6 +67,7 @@ const OffTheLineClone = {
     },
 
     drawLinearSquare() {
+        //this.ctx.filter = 'blur(2px)'
         this.ctx.lineWidth = 2
         this.ctx.strokeStyle = 'white'
         this.ctx.strokeRect(this.canvasSize.w / 2 - 125, this.canvasSize.h / 2 - 125, 250, 250)
@@ -79,15 +81,64 @@ const OffTheLineClone = {
     drawCoins() {
         this.ctx.lineWidth = 2
         this.ctx.strokeStyle = 'yellow'
-        this.ctx.strokeRect(this.canvasSize.w / 2 - 75, this.canvasSize.h / 2 - 75, 10, 10)
-        this.ctx.strokeRect(this.canvasSize.w / 2 - 5, this.canvasSize.h / 2 - 75, 10, 10)
-        this.ctx.strokeRect(this.canvasSize.w / 2 + 65, this.canvasSize.h / 2 - 75, 10, 10)
-        this.ctx.strokeRect(this.canvasSize.w / 2 - 75, this.canvasSize.h / 2 - 10, 10, 10)
-        this.ctx.strokeRect(this.canvasSize.w / 2 - 5, this.canvasSize.h / 2 - 10, 10, 10)
-        this.ctx.strokeRect(this.canvasSize.w / 2 + 65, this.canvasSize.h / 2 - 10, 10, 10)
-        this.ctx.strokeRect(this.canvasSize.w / 2 - 75, this.canvasSize.h / 2 + 65, 10, 10)
-        this.ctx.strokeRect(this.canvasSize.w / 2 - 5, this.canvasSize.h / 2 + 65, 10, 10)
-        this.ctx.strokeRect(this.canvasSize.w / 2 + 65, this.canvasSize.h / 2 + 65, 10, 10)
+        //Línea 1
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 80, this.canvasSize.h / 2 - 80, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 30, this.canvasSize.h / 2 - 80, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 20, this.canvasSize.h / 2 - 80, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 70, this.canvasSize.h / 2 - 80, 10, 10)
+        //Línea 2
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 80, this.canvasSize.h / 2 - 30, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 30, this.canvasSize.h / 2 - 30, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 20, this.canvasSize.h / 2 - 30, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 70, this.canvasSize.h / 2 - 30, 10, 10)
+        //Línea 3
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 80, this.canvasSize.h / 2 + 20, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 30, this.canvasSize.h / 2 + 20, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 20, this.canvasSize.h / 2 + 20, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 70, this.canvasSize.h / 2 + 20, 10, 10)
+        //Línea 4
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 80, this.canvasSize.h / 2 + 70, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 30, this.canvasSize.h / 2 + 70, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 20, this.canvasSize.h / 2 + 70, 10, 10)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 70, this.canvasSize.h / 2 + 70, 10, 10)
+    },
+
+    matrixDraw() {
+        this.ctx.lineWidth = 2
+        this.ctx.strokeStyle = '#00ffff'
+        //Linea 1
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 125, this.canvasSize.h / 2 - 125, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 75, this.canvasSize.h / 2 - 125, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 25, this.canvasSize.h / 2 - 125, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 25, this.canvasSize.h / 2 - 125, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 75, this.canvasSize.h / 2 - 125, 50, 50)
+
+        //Línea 2
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 125, this.canvasSize.h / 2 - 75, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 75, this.canvasSize.h / 2 - 75, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 25, this.canvasSize.h / 2 - 75, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 25, this.canvasSize.h / 2 - 75, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 75, this.canvasSize.h / 2 - 75, 50, 50)
+        //Línea 3
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 125, this.canvasSize.h / 2 - 25, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 75, this.canvasSize.h / 2 - 25, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 25, this.canvasSize.h / 2 - 25, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 25, this.canvasSize.h / 2 - 25, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 75, this.canvasSize.h / 2 - 25, 50, 50)
+        //Línea 4
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 125, this.canvasSize.h / 2 + 25, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 75, this.canvasSize.h / 2 + 25, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 25, this.canvasSize.h / 2 + 25, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 25, this.canvasSize.h / 2 + 25, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 75, this.canvasSize.h / 2 + 25, 50, 50)
+        //Línea 5
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 125, this.canvasSize.h / 2 + 75, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 75, this.canvasSize.h / 2 + 75, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 - 25, this.canvasSize.h / 2 + 75, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 25, this.canvasSize.h / 2 + 75, 50, 50)
+        this.ctx.strokeRect(this.canvasSize.w / 2 + 75, this.canvasSize.h / 2 + 75, 50, 50)
+
+
     },
 
     drawText() {
@@ -133,7 +184,7 @@ const OffTheLineClone = {
     setListener() {
         document.onkeypress = e => {
             if (e.key === this.key) {
-
+                this.hero.pressKeyMove()
             }
         }
     }
