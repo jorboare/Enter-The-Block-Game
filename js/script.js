@@ -1,0 +1,1 @@
+OffTheLineClone.init('myCanvas')
