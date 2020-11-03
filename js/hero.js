@@ -22,7 +22,7 @@ class Hero {
 
     drawHero() {
         this.ctx.lineWidth = 2
-        this.ctx.strikeStyle = 'blue'
+        this.ctx.strokeStyle = '#77EBC7'
         this.ctx.strokeRect(this.heroPos.x, this.heroPos.y, this.heroSize.w, this.heroSize.h)
         // var time = new Date();
         // this.ctx.rotate(((2 * Math.PI) / 60) * time.getSeconds() + ((2 * Math.PI) / 60000) * time.getMilliseconds());
@@ -52,19 +52,19 @@ class Hero {
         if (this.heroPos.x >= this.canvasSize.w / 2 - 135 && this.heroPos.x < this.canvasSize.w / 2 + 115) {
             this.direction = 'top'
             this.changeDirection("right")
-            console.log(this.direction)
+          
         } else if (this.heroPos.x > this.canvasSize.w / 2 && this.heroPos.y < this.canvasSize.h / 2 + 115) {
             this.direction = 'right'
             this.changeDirection("down")
-            console.log(this.direction)
+           
         } else if (this.heroPos.x <= this.canvasSize.w / 2 + 115 && this.heroPos.x > this.canvasSize.w / 2 - 135) {
             this.direction = 'bottom'
             this.changeDirection("left")
-            console.log(this.direction)
+            
         } else if (this.heroPos.x < this.canvasSize.w / 2 && this.heroPos.y >= this.canvasSize.h / 2 - 135) {
             this.direction = 'left'
             this.changeDirection("up")
-            console.log(this.direction)
+           
         } else {
             this.changeDirection("left")
         }
@@ -140,4 +140,4 @@ class Hero {
         //     this.changeDirection("up")
         // } else {
         //     this.changeDirection("left")
-        // }
+        // }h
