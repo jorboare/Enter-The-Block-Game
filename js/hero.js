@@ -1,9 +1,9 @@
 class Hero {
-    constructor(canvasCtx, canvasSize, guideLine, heroWidth, heroHeight, speed) {
+    constructor(canvasCtx, canvasSize, limitSquare, heroWidth, heroHeight, speed) {
         this.ctx = canvasCtx
         this.canvasSize = canvasSize
         this.heroPos = {
-            x: this.canvasSize.w / 2 - 135,
+            x: this.canvasSize.w / 2 - 134,
             y: this.canvasSize.h / 2 - 135
         }
         this.heroSize = {
@@ -13,10 +13,9 @@ class Hero {
 
         this.speed = speed
 
-        this.guideLine = guideLine
-
         this.direction = ''
 
+        this.limitSquare = limitSquare
 
     }
 
@@ -30,52 +29,34 @@ class Hero {
 
     moveHero() {
 
-        // if (this.heroPos.x >= this.canvasSize.w / 2 - 135 && this.heroPos.x < this.canvasSize.w / 2 + 115) {
-        //     this.direction = 'top'
-        //     this.changeDirection("right")
-        //     console.log(this.direction)
-        // } else if (this.heroPos.x > this.canvasSize.w / 2 && this.heroPos.y < this.canvasSize.h / 2 + 115) {
-        //     this.direction = 'right'
-        //     this.changeDirection("down")
-        //     console.log(this.direction)
-        // } else if (this.heroPos.x <= this.canvasSize.w / 2 + 115 && this.heroPos.x > this.canvasSize.w / 2 - 135) {
-        //     this.direction = 'bottom'
-        //     this.changeDirection("left")
-        //     console.log(this.direction)
-        // } else if (this.heroPos.x < this.canvasSize.w / 2 && this.heroPos.y >= this.canvasSize.h / 2 - 135) {
-        //     this.direction = 'left'
-        //     this.changeDirection("up")
-        //     console.log(this.direction)
-        // } else {
-        //     this.changeDirection("left")
-        // }
-        if (this.heroPos.x >= this.canvasSize.w / 2 - 135 && this.heroPos.x < this.canvasSize.w / 2 + 115) {
-            this.direction = 'top'
-            this.changeDirection("right")
-          
-        } else if (this.heroPos.x > this.canvasSize.w / 2 && this.heroPos.y < this.canvasSize.h / 2 + 115) {
-            this.direction = 'right'
-            this.changeDirection("down")
-           
-        } else if (this.heroPos.x <= this.canvasSize.w / 2 + 115 && this.heroPos.x > this.canvasSize.w / 2 - 135) {
-            this.direction = 'bottom'
-            this.changeDirection("left")
-            
-        } else if (this.heroPos.x < this.canvasSize.w / 2 && this.heroPos.y >= this.canvasSize.h / 2 - 135) {
-            this.direction = 'left'
-            this.changeDirection("up")
-           
-        } else {
-            this.changeDirection("left")
+        // if (this.heroPos.x >= this.limitSquare.pos.x &&
+        //     this.heroPos.x + this.heroSize.w <= this.limitSquare.pos.x + this.limitSquare.size.w &&
+        //     this.heroPos.y + this.heroSize.h <= this.limitSquare.pos.y + this.limitSquare.size.h &&
+        //     this.heroPos.y >= this.limitSquare.pos.y) {
+        if (this.heroPos.y >= this.limitSquare.pos.y && this.heroPos.x + this.heroSize.w < this.limitSquare.pos.x + this.limitSquare.size.w) {
+            this.changeDirection('right')
         }
+        else if (this.heroPos.x + this.heroSize.w === this.limitSquare.pos.x + this.limitSquare.size.w && this.heroPos.y + this.heroSize.h < this.limitSquare.pos.y + this.limitSquare.size.h) {
+            this.changeDirection('down')
+        }
+        else if (this.heroPos.x <= this.limitSquare.pos.x + this.limitSquare.size.w && this.heroPos.x > this.limitSquare.pos.x) {
+            this.changeDirection('left')
+        }
+        else {
+            if (this.heroPos.x >= this.limitSquare.pos.x) {
+                alert('FUNCIONA!')
+            }
+            this.changeDirection('up')
+        }
+        // }
 
 
+        console.log(this.heroPos.y + this.heroSize.h)
+        console.log(this.limitSquare.pos.y + this.limitSquare.size.h)
+        console.log(this.heroPos.x)
+        console.log(this.limitSquare.pos.x)
 
-        // console.log(this.heroPos.y)
-        // console.log((this.canvasSize.h / 2 + - 135))
-        // console.log(this.heroPos.x)
-        // console.log(this.canvasSize.w / 2 + 115)
-        // console.log(this.speed)
+
 
     }
 
@@ -141,3 +122,53 @@ class Hero {
         // } else {
         //     this.changeDirection("left")
         // }h
+
+       // < --------------------------->
+            // if (this.heroPos.x >= this.canvasSize.w / 2 - 135 && this.heroPos.x < this.canvasSize.w / 2 + 115) {
+        //     this.direction = 'top'
+        //     this.changeDirection("right")
+        //     console.log(this.direction)
+        // } else if (this.heroPos.x > this.canvasSize.w / 2 && this.heroPos.y < this.canvasSize.h / 2 + 115) {
+        //     this.direction = 'right'
+        //     this.changeDirection("down")
+        //     console.log(this.direction)
+        // } else if (this.heroPos.x <= this.canvasSize.w / 2 + 115 && this.heroPos.x > this.canvasSize.w / 2 - 135) {
+        //     this.direction = 'bottom'
+        //     this.changeDirection("left")
+        //     console.log(this.direction)
+        // } else if (this.heroPos.x < this.canvasSize.w / 2 && this.heroPos.y >= this.canvasSize.h / 2 - 135) {
+        //     this.direction = 'left'
+        //     this.changeDirection("up")
+        //     console.log(this.direction)
+        // } else {
+        //     this.changeDirection("left")
+        // }
+
+        //<-------------------------------->
+         // if (this.heroPos.x >= this.canvasSize.w / 2 - 135 && this.heroPos.x < this.canvasSize.w / 2 + 115) {
+        //     this.direction = 'top'
+        //     this.changeDirection("right")
+
+        // } else if (this.heroPos.x > this.canvasSize.w / 2 && this.heroPos.y < this.canvasSize.h / 2 + 115) {
+        //     this.direction = 'right'
+        //     this.changeDirection("down")
+
+        // } else if (this.heroPos.x <= this.canvasSize.w / 2 + 115 && this.heroPos.x > this.canvasSize.w / 2 - 135) {
+        //     this.direction = 'bottom'
+        //     this.changeDirection("left")
+
+        // } else if (this.heroPos.x < this.canvasSize.w / 2 && this.heroPos.y >= this.canvasSize.h / 2 - 135) {
+        //     this.direction = 'left'
+        //     this.changeDirection("up")
+
+        // } else {
+        //     this.changeDirection("left")
+        // }
+
+
+
+        // console.log(this.heroPos.y)
+        // console.log((this.canvasSize.h / 2 + - 135))
+        // console.log(this.heroPos.x)
+        // console.log(this.canvasSize.w / 2 + 115)
+        // console.log(this.speed)
