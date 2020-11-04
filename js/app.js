@@ -7,10 +7,12 @@ const OffTheLineClone = {
     canvasTag: undefined,
     ctx: undefined,
     hero: undefined,
+    title: undefined,
     key: " ",
     score: 0,
     timer: 15,
     coins: [],
+    controls: undefined,
     canvasSize: {
         w: 700,
         h: 500
@@ -33,10 +35,16 @@ const OffTheLineClone = {
         this.setDimensions()
         this.createHero()
         this.setListener()
+        this.createTitle()
+        // setInterval(() => {
+        //     this.title.draw()
+        // })
+        this.startGame()
         this.drawAll()
         this.setTimer()
         this.createCoins()
         this.limitSquareData()
+        this.createControlsImage()
 
         console.log(this.limitSquare)
 
@@ -47,20 +55,6 @@ const OffTheLineClone = {
         // this.canvasSize.h = window.innerHeight
         this.canvasTag.setAttribute('width', this.canvasSize.w)
         this.canvasTag.setAttribute('height', this.canvasSize.h)
-    },
-
-    drawStart() {
-        this.drawBackground()
-        this.ctx.font = " 20px verdana, sans-serif"
-        this.ctx.textAlign = "start"
-        this.ctx.textBaseLine = "bottom"
-        this.ctx.fillStyle = "white"
-        this.ctx.fillText(`Score: ${this.score}`, 100, 100)
-        document.onkeypress = e => {
-            if (e.key === this.key) {
-                this.drawAll()
-            }
-        }
     },
 
 
@@ -82,6 +76,8 @@ const OffTheLineClone = {
                 this.stopTimer()
                 this.collisionDetector()
                 this.hero.drawHero()
+                this.drawControls()
+
             } else {
                 this.drawGameOver()
             }
@@ -95,14 +91,28 @@ const OffTheLineClone = {
         this.ctx.fillRect(this.canvasSize.w / 2 - (this.canvasSize.w / 2), this.canvasSize.h / 2 - (this.canvasSize.h / 2), this.canvasSize.w, this.canvasSize.h)
     },
 
+    startGame() {
+        document.onkeypress = e => {
+            if (e.key === 'Enter') {
+                const image = document.querySelector('.center')
+                image.classList.add('none')
+            }
+            if (e.key === this.key) {
+                this.hero.pressKeyMove()
+            }
+
+        }
+
+    },
+
     drawLinearSquare() {
         //this.ctx.filter = 'blur(2px)'
         this.ctx.lineWidth = 2
-        let alpha = 0.8
-        let width = 250
-        let height = 250
+        let alpha = 0.6
+        let width = 234
+        let height = 234
 
-        this.ctx.strokeStyle = `rgb(235, 143, 170)`
+        this.ctx.strokeStyle = `#FFC8D2`
         this.ctx.strokeRect(this.canvasSize.w / 2 - (125), this.canvasSize.h / 2 - (125), 250, 250)
 
         for (let i = 0; i < 10; i++) {
@@ -136,7 +146,7 @@ const OffTheLineClone = {
     },
 
     drawFrame() {
-        this.ctx.lineWidth = 2
+        this.ctx.lineWidth = 1
         this.ctx.strokeStyle = '#77EBC7'
         this.ctx.strokeRect(this.canvasSize.w / 2 - 275, this.canvasSize.h / 2 - 225, 550, 450)
     },
@@ -164,6 +174,15 @@ const OffTheLineClone = {
 
         })
 
+    },
+
+    createControlsImage() {
+        this.controls = new Image()
+        this.controls.src = './images/controls.png'
+    },
+
+    drawControls() {
+        this.ctx.drawImage(this.controls, this.canvasSize.w / 2 - 70, 400, 140, 24)
     },
 
     matrixDraw() {
@@ -239,6 +258,13 @@ const OffTheLineClone = {
         this.hero = new Hero(this.ctx, this.canvasSize, this.limitSquare, 20, 20, 1)
 
     },
+
+    createTitle() {
+        this.title = new Title(this.ctx, 0, 0, 700, 500)
+
+    },
+
+
 
     createCoins() {
 
