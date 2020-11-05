@@ -86,6 +86,13 @@ const OffTheLineClone = {
             } else if (this.timer < 0) {
                 const win = document.querySelector('.game-over')
                 win.classList.add('block')
+                document.onkeypress = e => {
+                    if (e.key === 'Enter') {
+                        location.reload()
+                    }
+
+                }
+
             }
 
         }, 1)
@@ -103,6 +110,7 @@ const OffTheLineClone = {
                 const image = document.querySelector('.start')
                 image.classList.add('none')
                 this.drawAll()
+                document.getElementById('ost').play()
             }
             if (e.key === this.key) {
                 this.hero.pressKeyMove()
@@ -323,6 +331,7 @@ const OffTheLineClone = {
                 if (index !== -1) {
                     this.coins.splice(index, 1)
                     this.score++
+                    document.getElementById('coinSound').play()
                 }
             }
         })
