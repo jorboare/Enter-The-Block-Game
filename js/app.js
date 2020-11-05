@@ -7,10 +7,12 @@ const OffTheLineClone = {
     canvasTag: undefined,
     ctx: undefined,
     hero: undefined,
-    title: undefined,
+    win: undefined,
+    scoreCounter: undefined,
+    timeCounter: undefined,
     key: " ",
     score: 0,
-    timer: 30,
+    timer: 15,
     coins: [],
     controls: undefined,
     canvasSize: {
@@ -34,14 +36,17 @@ const OffTheLineClone = {
         this.ctx = this.canvasTag.getContext('2d')
         this.setDimensions()
         this.createHero()
-        this.setListener()
-        this.createTitle()
-        this.startGame()
-        this.drawAll()
-        this.setTimer()
         this.createCoins()
-        this.limitSquareData()
         this.createControlsImage()
+        this.createWin()
+        this.createCounters()
+        this.setListener()
+        this.startGame()
+        //this.drawAll()
+
+
+        this.limitSquareData()
+
 
         console.log(this.limitSquare)
 
@@ -54,7 +59,7 @@ const OffTheLineClone = {
 
 
     drawAll() {
-
+        this.setTimer()
         setInterval(() => {
             if (this.timer >= 0 && this.score < 16) {
                 this.clearScreen()
@@ -72,14 +77,18 @@ const OffTheLineClone = {
                 this.collisionDetector()
                 this.hero.drawHero()
                 this.drawControls()
+                this.scoreCounter.draw()
+                this.timeCounter.draw()
 
-            } else if (this.timer === 0) {
-                this.drawGameOver()
             } else if (this.score === 16) {
-                alert('VICTORY')
+                const win = document.querySelector('.win')
+                win.classList.add('block')
+            } else if (this.timer < 0) {
+                const win = document.querySelector('.game-over')
+                win.classList.add('block')
             }
 
-        }, 5)
+        }, 1)
 
     },
 
@@ -91,8 +100,9 @@ const OffTheLineClone = {
     startGame() {
         document.onkeypress = e => {
             if (e.key === 'Enter') {
-                const image = document.querySelector('.image')
+                const image = document.querySelector('.start')
                 image.classList.add('none')
+                this.drawAll()
             }
             if (e.key === this.key) {
                 this.hero.pressKeyMove()
@@ -164,6 +174,11 @@ const OffTheLineClone = {
         this.ctx.fillText(`Score: ${this.score}`, this.canvasSize.w / 2 - 35, this.canvasSize.h / 2 - 10)
     },
 
+    drawWin() {
+        this.ctx.drawWin(this.win, 0, 0, 700, 500)
+
+    },
+
     drawCoins() {
 
         this.coins.forEach(elm => {
@@ -221,20 +236,20 @@ const OffTheLineClone = {
     },
 
     drawText() {
-        this.ctx.font = "100 23px roboto, sans-serif"
+        this.ctx.font = "400 30px nova square, sans-serif"
         this.ctx.textAlign = "start"
         this.ctx.textBaseLine = "bottom"
-        this.ctx.fillStyle = "yellow"
-        this.ctx.fillText(`Score: ${this.score}`, 90, 50)
+        this.ctx.fillStyle = "#d6b930"
+        this.ctx.fillText(`${this.score}`, 130, 90)
 
     },
 
     drawTimer() {
-        this.ctx.font = "100 23px roboto, sans-serif"
+        this.ctx.font = "400 30px nova square, sans-serif"
         this.ctx.textAlign = "start"
         this.ctx.textBaseLine = "bottom"
-        this.ctx.fillStyle = "yellow"
-        this.ctx.fillText(`Time: ${this.timer}`, 525, 50)
+        this.ctx.fillStyle = "#d6b930"
+        this.ctx.fillText(`${this.timer}`, 550, 90)
     },
 
     setTimer() {
@@ -256,12 +271,14 @@ const OffTheLineClone = {
 
     },
 
-    createTitle() {
-        this.title = new Title(this.ctx, 0, 0, 700, 500)
-
+    createWin() {
+        this.win = new Win(this.ctx, 0, 0, 700, 500)
     },
 
-
+    createCounters() {
+        this.scoreCounter = new Counter(this.ctx, 90, 40, 100, 20, './images/Score.png')
+        this.timeCounter = new Counter(this.ctx, 530, 40, 67, 20, './images/Time.png')
+    },
 
     createCoins() {
 
