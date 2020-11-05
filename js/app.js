@@ -10,7 +10,7 @@ const OffTheLineClone = {
     title: undefined,
     key: " ",
     score: 0,
-    timer: 15,
+    timer: 30,
     coins: [],
     controls: undefined,
     canvasSize: {
@@ -36,9 +36,6 @@ const OffTheLineClone = {
         this.createHero()
         this.setListener()
         this.createTitle()
-        // setInterval(() => {
-        //     this.title.draw()
-        // })
         this.startGame()
         this.drawAll()
         this.setTimer()
@@ -51,8 +48,6 @@ const OffTheLineClone = {
     },
 
     setDimensions() {
-        // this.canvasSize.w = window.innerWidth
-        // this.canvasSize.h = window.innerHeight
         this.canvasTag.setAttribute('width', this.canvasSize.w)
         this.canvasTag.setAttribute('height', this.canvasSize.h)
     },
@@ -61,7 +56,7 @@ const OffTheLineClone = {
     drawAll() {
 
         setInterval(() => {
-            if (this.timer >= 0) {
+            if (this.timer >= 0 && this.score < 16) {
                 this.clearScreen()
                 this.drawBackground()
                 //this.matrixDraw()
@@ -78,8 +73,10 @@ const OffTheLineClone = {
                 this.hero.drawHero()
                 this.drawControls()
 
-            } else {
+            } else if (this.timer === 0) {
                 this.drawGameOver()
+            } else if (this.score === 16) {
+                alert('VICTORY')
             }
 
         }, 5)
@@ -94,7 +91,7 @@ const OffTheLineClone = {
     startGame() {
         document.onkeypress = e => {
             if (e.key === 'Enter') {
-                const image = document.querySelector('.center')
+                const image = document.querySelector('.image')
                 image.classList.add('none')
             }
             if (e.key === this.key) {
@@ -248,7 +245,7 @@ const OffTheLineClone = {
     },
 
     stopTimer() {
-        if (this.timer === 0) {
+        if (this.timer === -1) {
             clearInterval(this.interval)
         }
     },

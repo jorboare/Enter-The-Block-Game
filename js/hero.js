@@ -4,7 +4,7 @@ class Hero {
         this.canvasSize = canvasSize
         this.heroPos = {
             x: this.canvasSize.w / 2 - 134,
-            y: this.canvasSize.h / 2 - 135
+            y: this.canvasSize.h / 2 - 134
         }
         this.heroSize = {
             w: heroWidth,
@@ -13,7 +13,7 @@ class Hero {
 
         this.speed = speed
 
-        this.direction = ''
+        this.location = 'top'
 
         this.limitSquare = limitSquare
 
@@ -29,59 +29,78 @@ class Hero {
 
     moveHero() {
 
-        if (this.heroPos.x >= this.canvasSize.w / 2 - 135 && this.heroPos.x < this.canvasSize.w / 2 + 115) {
-            this.direction = 'top'
-            this.changeDirection("right")
-            console.log(this.direction)
-        } else if (this.heroPos.x > this.canvasSize.w / 2 && this.heroPos.y < this.canvasSize.h / 2 + 115) {
-            this.direction = 'right'
-            this.changeDirection("down")
-            console.log(this.direction)
-        } else if (this.heroPos.x <= this.canvasSize.w / 2 + 115 && this.heroPos.x > this.canvasSize.w / 2 - 135) {
-            this.direction = 'bottom'
-            this.changeDirection("left")
-            console.log(this.direction)
-        } else if (this.heroPos.x < this.canvasSize.w / 2 && this.heroPos.y >= this.canvasSize.h / 2 - 135) {
-            this.direction = 'left'
-            this.changeDirection("up")
-            console.log(this.direction)
-        } else {
-            this.changeDirection("left")
+        if (this.location === 'top') {
+            if (this.heroPos.x > this.limitSquare.pos.x &&
+                this.heroPos.x + this.heroSize.w < this.limitSquare.pos.x + this.limitSquare.size.w &&
+                this.heroPos.y + this.heroSize.h < this.limitSquare.pos.y + this.limitSquare.size.h &&
+                this.heroPos.y > this.limitSquare.pos.y) {
+                this.changeDirection('right')
+            } else {
+                this.heroPos.x -= 1
+                this.location = 'right'
+            }
+        }
+        if (this.location === 'right') {
+            if (this.heroPos.x > this.limitSquare.pos.x &&
+                this.heroPos.x + this.heroSize.w < this.limitSquare.pos.x + this.limitSquare.size.w &&
+                this.heroPos.y + this.heroSize.h < this.limitSquare.pos.y + this.limitSquare.size.h &&
+                this.heroPos.y > this.limitSquare.pos.y) {
+                this.changeDirection('down')
+            } else {
+                this.heroPos.y -= 1
+                this.location = 'bottom'
+            }
+        }
+        if (this.location === 'bottom') {
+            if (this.heroPos.x > this.limitSquare.pos.x &&
+                this.heroPos.x + this.heroSize.w < this.limitSquare.pos.x + this.limitSquare.size.w &&
+                this.heroPos.y + this.heroSize.h < this.limitSquare.pos.y + this.limitSquare.size.h &&
+                this.heroPos.y > this.limitSquare.pos.y) {
+                this.changeDirection('left')
+            } else {
+                this.heroPos.x += 1
+                this.location = "left"
+            }
+        }
+        if (this.location === 'left') {
+            if (this.heroPos.x > this.limitSquare.pos.x &&
+                this.heroPos.x + this.heroSize.w < this.limitSquare.pos.x + this.limitSquare.size.w &&
+                this.heroPos.y + this.heroSize.h < this.limitSquare.pos.y + this.limitSquare.size.h &&
+                this.heroPos.y > this.limitSquare.pos.y) {
+                this.changeDirection('up')
+            } else {
+                this.heroPos.y += 1
+                this.location = 'top'
+            }
         }
 
     }
 
     pressKeyMove() {
-
-        if (this.heroPos.y > this.canvasSize.h / 2 && this.heroPos.x < this.canvasSize.w / 2 + 115) {
-
-            this.changeDirection("down")
-        } else if (this.heroPos.x > this.canvasSize.w / 2 && this.heroPos.y < this.canvasSize.h / 2 + 115) {
-
-            this.changeDirection("left")
-        } else if (this.heroPos.y < this.canvasSize.h / 2 && this.heroPos.x > this.canvasSize.w / 2 - 135) {
-
-            this.changeDirection("up")
-        } else if (this.heroPos.x < this.canvasSize.w / 2 && this.heroPos.y >= this.canvasSize.h / 2 - 135) {
-
-            this.changeDirection("left")
+        if (this.location === 'top') {
+            this.location = 'right'
+        } else if (this.location === 'right') {
+            this.location = 'bottom'
+        } else if (this.location === 'bottom') {
+            this.location = 'left'
+        } else if (this.location === 'left') {
+            this.location = 'top'
         }
     }
 
     changeDirection(dir) {
         switch (dir) {
             case "right":
-                this.heroPos.x += this.speed
+                this.heroPos.x += 1
                 break;
             case "down":
-                this.heroPos.y += this.speed
+                this.heroPos.y += 1
                 break;
             case "left":
-                this.speed *= -1
-                this.heroPos.x += this.speed
+                this.heroPos.x -= 1
                 break;
             case "up":
-                this.heroPos.y += this.speed
+                this.heroPos.y -= 1
                 break;
         }
     }
@@ -166,7 +185,7 @@ class Hero {
 
 
         //<---------------------->
-         // if (this.heroPos.x >= this.limitSquare.pos.x &&
+        //  if (this.heroPos.x >= this.limitSquare.pos.x &&
         //     this.heroPos.x + this.heroSize.w <= this.limitSquare.pos.x + this.limitSquare.size.w &&
         //     this.heroPos.y + this.heroSize.h <= this.limitSquare.pos.y + this.limitSquare.size.h &&
         //     this.heroPos.y >= this.limitSquare.pos.y) {
@@ -193,3 +212,41 @@ class Hero {
         // console.log(this.limitSquare.pos.y + this.limitSquare.size.h)
         // console.log(this.heroPos.x)
         // console.log(this.limitSquare.pos.x)
+
+
+       // < --------------------------------->
+
+           // if (this.heroPos.y > this.canvasSize.h / 2 && this.heroPos.x < this.canvasSize.w / 2 + 115) {
+
+        //     this.changeDirection("down")
+        // } else if (this.heroPos.x > this.canvasSize.w / 2 && this.heroPos.y < this.canvasSize.h / 2 + 115) {
+
+        //     this.changeDirection("left")
+        // } else if (this.heroPos.y < this.canvasSize.h / 2 && this.heroPos.x > this.canvasSize.w / 2 - 135) {
+
+        //     this.changeDirection("up")
+        // } else if (this.heroPos.x < this.canvasSize.w / 2 && this.heroPos.y >= this.canvasSize.h / 2 - 135) {
+
+        //     this.changeDirection("left")
+        // }
+
+        //<--------------------------->
+            // if (this.heroPos.x >= this.canvasSize.w / 2 - 135 && this.heroPos.x < this.canvasSize.w / 2 + 115) {
+        //     this.direction = 'top'
+        //     this.changeDirection("right")
+        //     console.log(this.direction)
+        // } else if (this.heroPos.x > this.canvasSize.w / 2 && this.heroPos.y < this.canvasSize.h / 2 + 115) {
+        //     this.direction = 'right'
+        //     this.changeDirection("down")
+        //     console.log(this.direction)
+        // } else if (this.heroPos.x <= this.canvasSize.w / 2 + 115 && this.heroPos.x > this.canvasSize.w / 2 - 135) {
+        //     this.direction = 'bottom'
+        //     this.changeDirection("left")
+        //     console.log(this.direction)
+        // } else if (this.heroPos.x < this.canvasSize.w / 2 && this.heroPos.y >= this.canvasSize.h / 2 - 135) {
+        //     this.direction = 'left'
+        //     this.changeDirection("up")
+        //     console.log(this.direction)
+        // } else {
+        //     this.changeDirection("left")
+        // }
